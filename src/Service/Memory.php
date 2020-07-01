@@ -11,7 +11,8 @@ class Memory
         $memory = [];
         foreach ($output as $item) {
             $row = explode(':', $item, 2);
-            $memory[$row[0]] = trim($row[1]);
+            $value = round( (int) str_replace('kB', '', $row[1]) / 1000, 2);
+            $memory[$row[0]] = trim($value);
         }
 
         return $memory;

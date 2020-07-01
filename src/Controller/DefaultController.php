@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Service\Memory;
+use App\Service\Packages;
 use App\Service\Storage;
 use App\Service\System;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,16 +15,19 @@ class DefaultController extends AbstractController
      */
     public function index()
     {
-        $system = System::all();
+        $system     = System::all();
 
-        $memory = Memory::proc();
+        $memory     = Memory::proc();
 
-        $storage = Storage::get();
+        $storage    = Storage::get();
+
+        $upgrades   = Packages::all();
 
         return $this->render('index.html.twig', [
             'system'    => $system,
             'memory'    => $memory,
             'storage'   => $storage,
+            'upgrades'  => $upgrades,
         ]);
     }
 

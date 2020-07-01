@@ -7,14 +7,38 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">System</h4>
+                        System
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Canonical Hostname</strong><br>{{ system.hostname }}</li>
-                        <li class="list-group-item"><strong>Public IP</strong><br>{{ system.public_ip }}</li>
-                        <li class="list-group-item"><strong>Private IP</strong><br>{{ system.private_ip }}</li>
-                        <li class="list-group-item"><strong>Uptime</strong><br>{{ system.uptime }}</li>
-                        <li class="list-group-item"><strong>Up Since</strong><br>{{ system.upsince }}</li>
+                        <li class="list-group-item">
+                            <strong>Canonical Hostname</strong><br>
+                            {{ system.hostname }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Public IP</strong><br>
+                            {{ system.public_ip }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Private IP</strong><br>
+                            {{ system.private_ip }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Uptime</strong><br>
+                            {{ system.uptime }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Up Since</strong><br>
+                            {{ system.upsince }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Upgrades</strong><br>
+                            {{ upgrades.available.total }} updates can be installed immediately.<br>
+                            {{ upgrades.available.security }} of these updates are security updates.<br>
+
+                            {% if upgrades.restart == "true" %}
+                                <span class="badge badge-danger">Restart Available</span>
+                            {% endif %}
+                        </li>
                     </ul>
                 </div>
 
@@ -23,29 +47,33 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Memory</h4>
+                        Memory
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Used</strong> 0</li>
-                        <li class="list-group-item"><strong>Free</strong> {{ memory.MemFree }}</li>
-                        <li class="list-group-item"><strong>Total</strong> {{ memory.MemTotal }}</li>
+                        {% set memUsed = memory.MemTotal - memory.MemFree %}
+                        {% set memPerc = (memUsed / (memory.MemTotal / 100)) %}
+                        <li class="list-group-item"><strong>Used</strong> {{ memUsed }} mB</li>
+                        <li class="list-group-item"><strong>Free</strong> {{ memory.MemFree }} mB</li>
+                        <li class="list-group-item"><strong>Total</strong> {{ memory.MemTotal }} mB</li>
                         <li class="list-group-item">
                             <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar" role="progressbar" style="width: {{ memPerc }}%" aria-valuenow="{{ memPerc }}" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </li>
                     </ul>
 
                     <div class="card-header">
-                        <h4 class="card-title">Swap</h4>
+                        Swap
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Used</strong> 0</li>
-                        <li class="list-group-item"><strong>Free</strong> {{ memory.SwapFree }}</li>
-                        <li class="list-group-item"><strong>Total</strong> {{ memory.SwapTotal }}</li>
+                        {% set swapUsed = memory.SwapTotal - memory.SwapFree %}
+                        {% set swapPerc = (swapUsed / (memory.SwapTotal / 100)) %}
+                        <li class="list-group-item"><strong>Used</strong> {{ swapUsed }} mB</li>
+                        <li class="list-group-item"><strong>Free</strong> {{ memory.SwapFree }} mB</li>
+                        <li class="list-group-item"><strong>Total</strong> {{ memory.SwapTotal }} mB</li>
                         <li class="list-group-item">
                             <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar" role="progressbar" style="width: {{ swapPerc }}%" aria-valuenow="{{ swapPerc }}" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </li>
                     </ul>
@@ -78,6 +106,49 @@
                                 {% for col in row %}
                                 <td scope="row">{{ col }}</td>
                                 {% endfor %}
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-sm">
+
+                <div class="card">
+                    <div class="card-header">
+                        Package Upgrades
+                        {% if upgrades.available.total > 0 %}
+                            <span class="badge badge-info">{{ upgrades.available.total }} available</span>
+                        {% endif %}
+                        {% if upgrades.available.security > 0 %}
+                            <span class="badge badge-warning">{{ upgrades.available.security }} security</span>
+                        {% endif %}
+                        {% if upgrades.restart == "true" %}
+                            <span class="badge badge-danger">Restart Available</span>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">Package</th>
+                                <th scope="col">Current</th>
+                                <th scope="col">Latest</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in upgrades.packages %}
+                            <tr>
+                                <td scope="row">{{ item.name }}</td>
+                                <td scope="row">{{ item.current }}</td>
+                                <td scope="row">{{ item.latest }}</td>
                             </tr>
                             {% endfor %}
                             </tbody>
