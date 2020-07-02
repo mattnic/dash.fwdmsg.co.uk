@@ -2,6 +2,9 @@
 
 {% block body %}
     <div class="container mt-5">
+
+        <h1>Server Dashboard</h1>
+        
         <div class="row">
             <div class="col-sm">
 
@@ -107,6 +110,14 @@
                                 <td scope="row">{{ col }}</td>
                                 {% endfor %}
                             </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td colspan="{{ (row|length - 1) }}">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </td>
+                            </tr>
                             {% endfor %}
                             </tbody>
                         </table>
@@ -146,7 +157,7 @@
                             <tbody>
                             {% for item in upgrades.packages %}
                             <tr>
-                                <td scope="row">{{ item.name }}</td>
+                                <td scope="row"><strong>{{ item.name }}</strong></td>
                                 <td scope="row">{{ item.current }}</td>
                                 <td scope="row">{{ item.latest }}</td>
                             </tr>

@@ -17,7 +17,13 @@ class Storage
 
             $temp = explode(' ', $item);
             if ($x===0) {
-                $storage['head'] = $temp;
+                $head = array();
+                foreach ($temp as $heading) {
+                    if ($heading !== 'on')
+                        $head[] = $heading;
+                }
+
+                $storage['head'] = $head;
             } else {
                 $storage['data'][] = $temp;
             }
