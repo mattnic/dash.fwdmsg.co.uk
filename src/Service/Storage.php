@@ -6,7 +6,7 @@ class Storage
 
     public static function get()
     {
-        exec('df -hTP -t ext4 -t nfs4', $rawstorage);
+        exec('df -TP -t ext4 -t nfs4 -t nfs', $rawstorage);
 
         $x=0;
         $storage = array('head' => [], 'data' => []);
