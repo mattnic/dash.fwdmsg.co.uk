@@ -3,7 +3,7 @@
 {% block title %}Server Dashboard{% endblock %}
 
 {% block body %}
-    <div class="container mt-5">
+    <div class="container mt-5 mb-5">
 
         <h1>Server Dashboard</h1>
 
@@ -20,20 +20,28 @@
                             {{ system.hostname }}
                         </li>
                         <li class="list-group-item">
-                            <strong>Public IP</strong><br>
-                            {{ system.public_ip }}
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Public IP</strong><br>
+                                    {{ system.public_ip }}
+                                </div>
+                                <div class="col-6">
+                                    <strong>Private IP</strong><br>
+                                    {{ system.private_ip }}
+                                </div>
+                            </div>
                         </li>
                         <li class="list-group-item">
-                            <strong>Private IP</strong><br>
-                            {{ system.private_ip }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Uptime</strong><br>
-                            {{ system.uptime }}
-                        </li>
-                        <li class="list-group-item">
-                            <strong>Up Since</strong><br>
-                            {{ system.upsince }}
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Uptime</strong><br>
+                                    {{ system.uptime }}
+                                </div>
+                                <div class="col-6">
+                                    <strong>Up Since</strong><br>
+                                    {{ system.upsince }}
+                                </div>
+                            </div>
                         </li>
                         <li class="list-group-item">
                             <strong>Upgrades</strong><br>
@@ -88,7 +96,7 @@
         </div>
     </div>
 
-    <div class="container mt-5">
+    <div class="container mt-5 mb-5">
         <div class="row">
             <div class="col-sm">
 
@@ -130,7 +138,7 @@
         </div>
     </div>
 
-    <div class="container mt-5">
+    <div class="container mt-5 mb-5">
         <div class="row">
             <div class="col-sm">
 
@@ -171,6 +179,10 @@
 
             </div>
         </div>
+    </div>
+
+    <div class="container mt-5 mb-5">
+        <div class="text-center">&copy; 2020 Matt Nicholls - <a target="_blank" href="https://github.com/mattnic/server-dashboard">GitHub</a></div>
     </div>
 
 {% endblock %}
